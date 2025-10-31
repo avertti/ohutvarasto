@@ -1,2 +1,3 @@
 # ohutvarasto
-![GHA workflow badge] (https://github.com/avertti/ohutvarasto/actions/workflows/CI/badge.svg)
+
+![GHA workflow badge] (https://github.com/avertti/ohutvarasto/workflows/CI/badge.svg)
