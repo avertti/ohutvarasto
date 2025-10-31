@@ -38,3 +38,46 @@ class TestVarasto(unittest.TestCase):
 
         # varastossa pitäisi olla tilaa 10 - 8 + 2 eli 4
         self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 4)
+    
+    def test_lisaa_liikaa(self):
+        self.varasto.lisaa_varastoon(11)
+        self.assertAlmostEqual(self.varasto.saldo, self.varasto.tilavuus)
+
+    def test_otetaan_liikaa(self):
+        self.varasto.lisaa_varastoon(3)
+        tulos = self.varasto.ota_varastosta(10)
+        self.assertAlmostEqual(tulos, 3)
+        self.assertAlmostEqual(self.varasto.saldo, 0)
+
+    def test_lisaa_negatiivinen(self):
+        alku_saldo = self.varasto.saldo
+        self.varasto.lisaa_varastoon(-3)
+        self.assertAlmostEqual(self.varasto.saldo, alku_saldo)
+
+    def test_otetaan_negatiivinen(self):
+        t = self.varasto.ota_varastosta(-3)
+        self.assertAlmostEqual(t, 0.0)
+        self.assertAlmostEqual(self.varasto.saldo, 0)
+
+    def test_negatiivinen_tilavuus(self):
+        varasto = Varasto(-8, 3)
+        self.assertAlmostEqual(varasto.tilavuus, 0)
+        self.assertAlmostEqual(varasto.saldo, 0)
+
+    def test_negatiivinen_saldo(self):
+        varasto = Varasto(8, -3)
+        self.assertAlmostEqual(varasto.saldo, 0)
+
+    def test_saldo_yli_tilavuuden(self):
+        varasto = Varasto(10, 11)
+        self.assertAlmostEqual(varasto.saldo, 10)
+    
+    def test_str(self):
+        self.varasto.lisaa_varastoon(5)
+        string = str(self.varasto)
+        self.assertIn("saldo = 5", string)
+        self.assertIn(" vielä tilaa 5", string)
+
+
+        
+
