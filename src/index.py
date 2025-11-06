@@ -68,7 +68,7 @@ def tulosta_alkutilanne(mehu, olut):
 
 def main():
     mehu, olut = luo_varastot()
-    tulosta_alkutilanne(mehu, olut)#fffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    tulosta_alkutilanne(mehu, olut)
     testaa_getterit(olut)
     testaa_setterit(mehu)
     testaa_virhetilanteita()
