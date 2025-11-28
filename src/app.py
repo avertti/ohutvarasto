@@ -5,7 +5,15 @@ from sqlalchemy.orm import sessionmaker
 from models import Base, Warehouse, Item
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key')
+
+# Secret key configuration - use environment variable in production
+# In development mode, a default key is used for convenience
+_secret_key = os.environ.get('SECRET_KEY')
+if not _secret_key:
+    if os.environ.get('FLASK_ENV') == 'production':
+        raise RuntimeError("SECRET_KEY environment variable must be set in production")
+    _secret_key = 'dev-secret-key-do-not-use-in-production'
+app.secret_key = _secret_key
 
 # Database setup - use lazy initialization
 _engine = None
@@ -242,4 +250,6 @@ def delete_item(warehouse_id, item_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Only enable debug mode if explicitly set via environment variable
+    debug_mode = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(debug=debug_mode)
